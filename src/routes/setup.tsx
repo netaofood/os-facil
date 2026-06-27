@@ -7,6 +7,7 @@ export const Route = createFileRoute('/setup')({
   beforeLoad: async () => {
     const { userId, profile } = await getAuthState()
     if (!userId) throw redirect({ to: '/login' })
+    if (profile?.role === 'super_admin') throw redirect({ to: '/super-admin' })
     if (profile?.empresa_id) throw redirect({ to: '/dashboard' })
     return { userId }
   },

@@ -9,11 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SuperAdminRouteImport } from './routes/super-admin'
 import { Route as SetupRouteImport } from './routes/setup'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
 
+const SuperAdminRoute = SuperAdminRouteImport.update({
+  id: '/super-admin',
+  path: '/super-admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SetupRoute = SetupRouteImport.update({
   id: '/setup',
   path: '/setup',
@@ -40,12 +46,14 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/setup': typeof SetupRoute
+  '/super-admin': typeof SuperAdminRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/setup': typeof SetupRoute
+  '/super-admin': typeof SuperAdminRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,14 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/setup': typeof SetupRoute
+  '/super-admin': typeof SuperAdminRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/login' | '/setup'
+  fullPaths: '/' | '/dashboard' | '/login' | '/setup' | '/super-admin'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/login' | '/setup'
-  id: '__root__' | '/' | '/dashboard' | '/login' | '/setup'
+  to: '/' | '/dashboard' | '/login' | '/setup' | '/super-admin'
+  id: '__root__' | '/' | '/dashboard' | '/login' | '/setup' | '/super-admin'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,10 +76,18 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRoute
   LoginRoute: typeof LoginRoute
   SetupRoute: typeof SetupRoute
+  SuperAdminRoute: typeof SuperAdminRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/super-admin': {
+      id: '/super-admin'
+      path: '/super-admin'
+      fullPath: '/super-admin'
+      preLoaderRoute: typeof SuperAdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/setup': {
       id: '/setup'
       path: '/setup'
@@ -107,6 +124,7 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRoute,
   LoginRoute: LoginRoute,
   SetupRoute: SetupRoute,
+  SuperAdminRoute: SuperAdminRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

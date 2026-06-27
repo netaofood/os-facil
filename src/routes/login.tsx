@@ -1,13 +1,11 @@
 import { createFileRoute, redirect, useRouter } from '@tanstack/react-router'
 import { useState, type FormEvent } from 'react'
-import { getAuthState, signIn, signUp } from '@/lib/auth'
+import { destinoPadrao, getAuthState, signIn, signUp } from '@/lib/auth'
 
 export const Route = createFileRoute('/login')({
   beforeLoad: async () => {
     const { userId, profile } = await getAuthState()
-    if (userId) {
-      throw redirect({ to: profile?.empresa_id ? '/dashboard' : '/setup' })
-    }
+    if (userId) throw redirect({ to: destinoPadrao(profile) })
   },
   component: LoginPage,
 })

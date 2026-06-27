@@ -44,3 +44,12 @@ export function signUp(email: string, password: string, nome: string) {
 export function signOut() {
   return supabase.auth.signOut()
 }
+
+/** Para onde mandar o usuário logado, conforme papel e empresa. */
+export function destinoPadrao(
+  profile: Profile | null,
+): '/super-admin' | '/setup' | '/dashboard' {
+  if (profile?.role === 'super_admin') return '/super-admin'
+  if (!profile?.empresa_id) return '/setup'
+  return '/dashboard'
+}
