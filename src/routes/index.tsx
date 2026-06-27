@@ -23,7 +23,7 @@ function Home() {
           fechar OS em poucos toques.
         </p>
         <div className="flex flex-wrap gap-3">
-          <Link to="/" className="btn-primary">Começar</Link>
+          <Link to="/login" className="btn-primary">Entrar</Link>
         </div>
         <p className="mt-8 text-sm text-[var(--sea-ink-soft)]">
           Status do scaffold: <strong>app no ar ✓</strong> — próximos passos: banco,
