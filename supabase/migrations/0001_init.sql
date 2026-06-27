@@ -4,7 +4,7 @@
 --
 -- COMO USAR: cole TUDO no SQL Editor do Supabase e clique em "Run".
 --
--- ⚠️ ANTES DE RODAR: na seção 3 (trigger), troque 'DONO@EXEMPLO.COM'
+-- ⚠️ ANTES DE RODAR: na seção 3 (trigger), troque 'netaosushibar@gmail.com'
 --    pelo e-mail do dono da plataforma. Esse e-mail vira super_admin
 --    automaticamente no cadastro.
 -- =========================================================
@@ -175,7 +175,7 @@ grant execute on function public.is_super_admin() to authenticated;
 
 
 -- ---------- 3. Trigger: cria a linha em usuarios no cadastro do Auth ----------
--- ⚠️ TROQUE 'DONO@EXEMPLO.COM' pelo e-mail do dono da plataforma.
+-- ⚠️ TROQUE 'netaosushibar@gmail.com' pelo e-mail do dono da plataforma.
 
 create or replace function public.handle_new_user()
 returns trigger
@@ -190,7 +190,7 @@ begin
     new.email,
     coalesce(new.raw_user_meta_data->>'nome', new.email),
     case
-      when new.email = 'DONO@EXEMPLO.COM' then 'super_admin'::public.user_role
+      when new.email = 'netaosushibar@gmail.com' then 'super_admin'::public.user_role
       else 'admin'::public.user_role
     end
   );
