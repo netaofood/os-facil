@@ -12,8 +12,12 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SuperAdminRouteImport } from './routes/super-admin'
 import { Route as SetupRouteImport } from './routes/setup'
 import { Route as LoginRouteImport } from './routes/login'
-import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppProdutosRouteImport } from './routes/_app/produtos'
+import { Route as AppOsRouteImport } from './routes/_app/os'
+import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
+import { Route as AppClientesRouteImport } from './routes/_app/clientes'
 
 const SuperAdminRoute = SuperAdminRouteImport.update({
   id: '/super-admin',
@@ -30,9 +34,8 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
+const AppRoute = AppRouteImport.update({
+  id: '/_app',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -40,40 +43,96 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppProdutosRoute = AppProdutosRouteImport.update({
+  id: '/produtos',
+  path: '/produtos',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppOsRoute = AppOsRouteImport.update({
+  id: '/os',
+  path: '/os',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDashboardRoute = AppDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppClientesRoute = AppClientesRouteImport.update({
+  id: '/clientes',
+  path: '/clientes',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/setup': typeof SetupRoute
   '/super-admin': typeof SuperAdminRoute
+  '/clientes': typeof AppClientesRoute
+  '/dashboard': typeof AppDashboardRoute
+  '/os': typeof AppOsRoute
+  '/produtos': typeof AppProdutosRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/setup': typeof SetupRoute
   '/super-admin': typeof SuperAdminRoute
+  '/clientes': typeof AppClientesRoute
+  '/dashboard': typeof AppDashboardRoute
+  '/os': typeof AppOsRoute
+  '/produtos': typeof AppProdutosRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
+  '/_app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/setup': typeof SetupRoute
   '/super-admin': typeof SuperAdminRoute
+  '/_app/clientes': typeof AppClientesRoute
+  '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/os': typeof AppOsRoute
+  '/_app/produtos': typeof AppProdutosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/login' | '/setup' | '/super-admin'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/setup'
+    | '/super-admin'
+    | '/clientes'
+    | '/dashboard'
+    | '/os'
+    | '/produtos'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/login' | '/setup' | '/super-admin'
-  id: '__root__' | '/' | '/dashboard' | '/login' | '/setup' | '/super-admin'
+  to:
+    | '/'
+    | '/login'
+    | '/setup'
+    | '/super-admin'
+    | '/clientes'
+    | '/dashboard'
+    | '/os'
+    | '/produtos'
+  id:
+    | '__root__'
+    | '/'
+    | '/_app'
+    | '/login'
+    | '/setup'
+    | '/super-admin'
+    | '/_app/clientes'
+    | '/_app/dashboard'
+    | '/_app/os'
+    | '/_app/produtos'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DashboardRoute: typeof DashboardRoute
+  AppRoute: typeof AppRouteWithChildren
   LoginRoute: typeof LoginRoute
   SetupRoute: typeof SetupRoute
   SuperAdminRoute: typeof SuperAdminRoute
@@ -102,11 +161,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -116,12 +175,56 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_app/produtos': {
+      id: '/_app/produtos'
+      path: '/produtos'
+      fullPath: '/produtos'
+      preLoaderRoute: typeof AppProdutosRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/os': {
+      id: '/_app/os'
+      path: '/os'
+      fullPath: '/os'
+      preLoaderRoute: typeof AppOsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/dashboard': {
+      id: '/_app/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AppDashboardRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/clientes': {
+      id: '/_app/clientes'
+      path: '/clientes'
+      fullPath: '/clientes'
+      preLoaderRoute: typeof AppClientesRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
+interface AppRouteChildren {
+  AppClientesRoute: typeof AppClientesRoute
+  AppDashboardRoute: typeof AppDashboardRoute
+  AppOsRoute: typeof AppOsRoute
+  AppProdutosRoute: typeof AppProdutosRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppClientesRoute: AppClientesRoute,
+  AppDashboardRoute: AppDashboardRoute,
+  AppOsRoute: AppOsRoute,
+  AppProdutosRoute: AppProdutosRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DashboardRoute: DashboardRoute,
+  AppRoute: AppRouteWithChildren,
   LoginRoute: LoginRoute,
   SetupRoute: SetupRoute,
   SuperAdminRoute: SuperAdminRoute,
